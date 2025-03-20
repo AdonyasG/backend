@@ -8,7 +8,7 @@ from fastapi import HTTPException
 # Environment Variables (Set in Dockerfile)
 CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
-REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI", "http://localhost:8000/callback")
+REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI")
 
 app = FastAPI()
 
@@ -39,7 +39,7 @@ def callback(code: str):
     }
     response = requests.post(token_url, data=data)
     tokens = response.json()
-    redirect_url = f"http://localhost:3000?access_token={tokens['access_token']}&refresh_token={tokens['refresh_token']}"
+    redirect_url = f"https://frontend-8fm6.onrender.com?access_token={tokens['access_token']}&refresh_token={tokens['refresh_token']}"
     return RedirectResponse(url=redirect_url)
     # return {"access_token": tokens["access_token"], "refresh_token": tokens["refresh_token"]}
 
